@@ -1,4 +1,6 @@
+using System;
 using DataLibrary.Enums;
+using DataLibrary.Exceptions;
 
 namespace DataLibrary.Models
 {
@@ -30,30 +32,73 @@ namespace DataLibrary.Models
             get { return _gender; }
             set { _gender = value; }
         }
-        ///<value>Gets or Sets the series title.</value>
+
+        /// <value>
+        /// <para>Gets or Sets the series title.</para>
+        /// <para>The string passed as Set parameter should not be null or empty and have more than 3 characters.</para>
+        /// </value>
+        /// <exception cref="DataLibrary.Exceptions.SeriesPropertyValidationException">
+        /// Throw when the string passed is null or empty, or has less than 3 characters.
+        ///</exception>
         public string Title
         {
             get { return _title; }
+        
             private set
             {
+                // Validates if the passed string is null or empty, or if has less than 3 characters.
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new SeriesPropertyValidationException(
+                        "The title can't be empty.");
+                }
+
+                if (value.Length < 3)
+                {
+                    throw new SeriesPropertyValidationException(
+                        "The title need to have a minimum of 3 characters.");
+                }
+
                 _title = value;
             }
         }
+
         ///<value>Gets or Sets the Series description.</value>
         public string Description
         {
             get { return _description; }
             set { _description = value; }
         }
-        ///<value>Gets or Sets the series year of launch.</value>
+
+        /// <value>
+        /// <para>Gets or Sets the series year of launch.</para>
+        /// <para>The date passed as Set parameter must be bigger than 1900 and less or equal to the current year.</para>
+        /// </value>
+        /// <exception cref="DataLibrary.Exceptions.SeriesPropertyValidationException">
+        /// Throw when the year passed is less than 1900 or bigger than the current year.
+        ///</exception>
         public int Year
         {
             get { return _year; }
             set
             {
+                // Validate if the date passed as argument is bigger than 1900 and less or equal to the current year.
+                if (value < 1900)
+                {
+                    throw new SeriesPropertyValidationException(
+                        "The year must be bigger than 1900.");
+                }
+
+                if (value > DateTime.Now.Year)
+                {
+                    throw new SeriesPropertyValidationException(
+                        $"The year must be minor or equal to {DateTime.Now.Year}");
+                }
+
                 _year = value;
             }
         }
+
         ///<value>Gets a boolean value indicating whether the series is deleted.</value>
         public bool IsDeleted
         {
