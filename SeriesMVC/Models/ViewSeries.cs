@@ -1,17 +1,10 @@
 using System;
 using DataLibrary.Enums;
-using DataLibrary.Exceptions;
+using DataLibrary.Models;
 
-namespace DataLibrary.Models
+namespace SeriesMVC.Models
 {
-    /// <summary>
-    /// The Series class represents one TV Series withs his attributes.
-    /// <remarks> 
-    /// This class implements the ISeries interface and inherits from the BaseEntity abstract class, 
-    /// from which receives the Id property.
-    ///</remarks>
-    /// </sumary>
-    public class Series : BaseEntity, ISeries
+    public class ViewSeries : BaseEntity, IViewSeries
     {
         // Private backing fields
         /*
@@ -37,28 +30,12 @@ namespace DataLibrary.Models
         /// <para>Gets or Sets the series title.</para>
         /// <para>The string passed as Set parameter should not be null or empty and have more than 3 characters.</para>
         /// </value>
-        /// <exception cref="DataLibrary.Exceptions.SeriesPropertyValidationException">
-        /// Throw when the string passed is null or empty, or has less than 3 characters.
-        ///</exception>
         public string Title
         {
             get { return _title; }
         
             set
             {
-                // Validates if the passed string is null or empty, or if has less than 3 characters.
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new SeriesPropertyValidationException(
-                        "The title can't be empty.");
-                }
-
-                if (value.Length < 3)
-                {
-                    throw new SeriesPropertyValidationException(
-                        "The title need to have a minimum of 3 characters.");
-                }
-
                 _title = value;
             }
         }
@@ -74,27 +51,11 @@ namespace DataLibrary.Models
         /// <para>Gets or Sets the series year of launch.</para>
         /// <para>The date passed as Set parameter must be bigger than 1900 and less or equal to the current year.</para>
         /// </value>
-        /// <exception cref="DataLibrary.Exceptions.SeriesPropertyValidationException">
-        /// Throw when the year passed is less than 1900 or bigger than the current year.
-        ///</exception>
         public int Year
         {
             get { return _year; }
             set
             {
-                // Validate if the date passed as argument is bigger than 1900 and less or equal to the current year.
-                if (value < 1900)
-                {
-                    throw new SeriesPropertyValidationException(
-                        "The year must be bigger than 1900.");
-                }
-
-                if (value > DateTime.Now.Year)
-                {
-                    throw new SeriesPropertyValidationException(
-                        $"The year must be minor or equal to {DateTime.Now.Year}");
-                }
-
                 _year = value;
             }
         }
@@ -106,9 +67,20 @@ namespace DataLibrary.Models
             private set { _isDeleted = value; }
         }
 
-        // Constructor      
-        public Series(Gender gender, string title, string description, int year)
+        // Constructor without id
+        public ViewSeries(Gender gender, string title, string description, int year)
         {
+            this.Gender = gender;
+            this.Title = title;
+            this.Description = description;
+            this.Year = year;
+            this.IsDeleted = false;
+        }
+
+        // Constructor with id
+        public ViewSeries(int id, Gender gender, string title, string description, int year)
+        {
+            this.SetId(id);
             this.Gender = gender;
             this.Title = title;
             this.Description = description;
@@ -117,7 +89,7 @@ namespace DataLibrary.Models
         }
         
         // An empty constructor
-        public Series()
+        public ViewSeries()
         {
         }
 
@@ -137,44 +109,9 @@ namespace DataLibrary.Models
         }
 
         /// <summary>
-        /// Alter the state of the series object to indicate that is deleted.
-        /// </summary>
-        /// <remarks>
-        /// Check if the series is already deleted, if not alter it's state to deleted.
-        /// </remarks>
-        public void Delete()
-        {
-            if(IsDeleted)
-            {
-                return;
-            }
-
-            this.IsDeleted = true;
-        }
-
-        /// <summary>
-        /// Alter the state of the series object to indicate that is not deleted.
-        /// </summary>
-        /// <remarks>
-        /// Check if the series is already not deleted, if not alter it's state to not deleted.
-        /// </remarks>
-        public void Restore()
-        {
-            if(!IsDeleted)
-            {
-                return;
-            }
-
-            this.IsDeleted = false;
-        }
-
-        /// <summary>
         /// Sets a integer value as the series Id.
         /// </summary>
         /// <param name="id">An unique identifier for a ISeries object in the repository.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Throw when the <paramref name="id"/>  passed is less than 0..
-        ///</exception>
         public void SetId(int id)
         {
             if(id < 0)

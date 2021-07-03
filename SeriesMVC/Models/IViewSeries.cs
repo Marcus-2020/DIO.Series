@@ -1,18 +1,10 @@
 using DataLibrary.Enums;
 
-namespace DataLibrary.Models
+namespace SeriesMVC.Models
 {
-    /// <summary>
-    /// The ISeries interface is a base abstraction that is used throughout the application
-    /// where a TV series object is needed. 
-    ///</summary>
-    /// <remarks>
-    /// The ISeries interface allows de program to make use of different implementations for a TV series object,
-    /// making testing and mantaining the application easier.
-    /// </remarks>
-    public interface ISeries
+    public interface IViewSeries
     {
-        // Propteries of ISeries
+         // Propteries of ISeries
 
         ///<value>Gets or Sets a Gender enum indicating the series gender.</value>
         Gender Gender { get; set; }
@@ -39,19 +31,6 @@ namespace DataLibrary.Models
         /// Sets a integer value as the series id.
         /// </summary>
         /// <param name="id">An unique identifier for a ISeries object in the repository.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Throw when the <paramref name="id"/>  passed is less than 0..
-        ///</exception>
         void SetId(int id);
-
-        /// <summary>
-        /// Alter the state of the series object to indicate that is deleted.
-        /// </summary>
-        void Delete();
-
-        /// <summary>
-        /// Alter the state of the series object to indicate that is not deleted.
-        /// </summary>
-        void Restore();
     }
 }

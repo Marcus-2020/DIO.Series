@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using DataLibrary.Models;
 using DataLibrary.Repositories;
 using DataLibrary.Enums;
+using SeriesMVC.Models;
 
 namespace SeriesMVC
 {
@@ -28,9 +29,13 @@ namespace SeriesMVC
         {
             services.AddControllersWithViews();
 
-            // Dependecies injection setup for the DIOSeries app
+            // Dependecies injection setup for the DataLibrary models
             services.AddTransient<ISeries, Series>();
             services.AddSingleton<ISeriesRepository, SeriesListRepository>();
+
+            // Dependecies injection setup from da SeriesMVC models
+            services.AddTransient<IViewSeries, ViewSeries>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

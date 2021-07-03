@@ -1,0 +1,52 @@
+@model IEnumerable<SeriesMVC.Models.IViewSeries>
+
+@{
+    ViewData["Title"] = "My Series Page";
+}
+
+<div class="jumbotron-fluid">
+    <div class="text-left">
+        <h1 class="display-4" style="color:#263238">My Series</h1>
+        <h5 style="color:#3d5afe">Those are your registered TV Series. <b style="color:#ff1744">Have fun!</b></h5>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <p>
+                <a href="#">Create New</a>
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Gender)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model) {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Gender)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.ReturnId()">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.ReturnId()">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.ReturnId()">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
