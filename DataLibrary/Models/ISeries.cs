@@ -36,6 +36,12 @@ namespace DataLibrary.Models
         int ReturnId();
 
         /// <summary>
+        /// Sets a integer value as the series id.
+        /// </summary>
+        /// <param name="id">An unique identifier for a ISeries object in the repository.</param>
+        void SetId(int id);
+
+        /// <summary>
         /// Alter the state of the series object to indicate that is deleted.
         /// </summary>
         void Delete();

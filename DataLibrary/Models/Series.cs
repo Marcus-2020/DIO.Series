@@ -107,9 +107,8 @@ namespace DataLibrary.Models
         }
 
         // Constructor      
-        public Series(int id, Gender gender, string title, string description, int year)
+        public Series(Gender gender, string title, string description, int year)
         {
-            this.Id = id;
             this.Gender = gender;
             this.Title = title;
             this.Description = description;
@@ -118,13 +117,13 @@ namespace DataLibrary.Models
         }
 
         /// <summary>
-        /// Return a integer value representing the series id.
+        /// Return a integer value representing the series Id.
         /// </summary>
         /// <remarks>
         /// The Id value returned is inherited from the BaseEntity class.
         /// </remarks>
         /// <returns>
-        /// A integer value representing the series id.
+        /// A integer value representing the series Id.
         /// </returns>
         public int ReturnId()
         {
@@ -161,6 +160,21 @@ namespace DataLibrary.Models
             }
 
             this.IsDeleted = false;
+        }
+
+        /// <summary>
+        /// Sets a integer value as the series Id.
+        /// </summary>
+        /// <param name="id">An unique identifier for a ISeries object in the repository.</param>
+        public void SetId(int id)
+        {
+            if(id < 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    "Invalid id passed as argument, expected a integer number bigger than 0.");
+            }
+
+            this.Id = id;
         }
     }
 }
