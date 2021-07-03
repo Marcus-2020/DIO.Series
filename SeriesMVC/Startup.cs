@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using DataLibrary.Models;
+using DataLibrary.Repositories;
 
 namespace SeriesMVC
 {
@@ -24,6 +26,10 @@ namespace SeriesMVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            // Dependecies injection setup for the DIOSeries app
+            services.AddTransient<ISeries, Series>();
+            services.AddSingleton<ISeriesRepository, SeriesListRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
