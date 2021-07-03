@@ -107,7 +107,16 @@ namespace DataLibrary.Models
         }
 
         // Constructor      
-        public Series(Gender gender, string title, string description, int year)
+        public Series(int id, Gender gender, string title, string description, int year)
+        {
+            this.Gender = gender;
+            this.Title = title;
+            this.Description = description;
+            this.Year = year;
+            this.IsDeleted = false;
+        }
+
+         public Series(Gender gender, string title, string description, int year)
         {
             this.Gender = gender;
             this.Title = title;

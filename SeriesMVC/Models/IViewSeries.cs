@@ -4,20 +4,20 @@ namespace SeriesMVC.Models
 {
     public interface IViewSeries
     {
-         // Propteries of ISeries
+        // Propteries of IViewSeries
 
         ///<value>Gets or Sets a Gender enum indicating the series gender.</value>
-        Gender Gender { get; set; }
+        Gender Gender { get; }
         ///<value>Gets or Sets a string value indicating the series title.</value>
-        string Title { get; set; }
+        string Title { get; }
         ///<value>Gets or Sets a string value indicating the series description.</value>
-        string Description { get; set; }
+        string Description { get; }
         ///<value>Gets or Sets a integer value indicating the series year of launch.</value>
-        int Year { get; set; }
+        int Year { get; }
         ///<value>Gets a boolean value indicating whether the series is deleted.</value>
         bool IsDeleted { get; }
 
-        // Methods of ISeries
+        // Methods of IViewSeries
 
         /// <summary>
         /// Return a integer value representing the series id.
@@ -27,10 +27,5 @@ namespace SeriesMVC.Models
         /// </returns>
         int ReturnId();
 
-        /// <summary>
-        /// Sets a integer value as the series id.
-        /// </summary>
-        /// <param name="id">An unique identifier for a ISeries object in the repository.</param>
-        void SetId(int id);
     }
 }

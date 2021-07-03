@@ -4,8 +4,8 @@ using DataLibrary.Models;
 using DataLibrary.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using SeriesMVC.Models;
-using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
+using SeriesMVC.Factory;
 
 namespace SeriesMVC.Controllers
 {
@@ -14,15 +14,16 @@ namespace SeriesMVC.Controllers
     {
         /// <value>The repository of series</value>
         private readonly IRepository<ISeries> _repository;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IObjectFactory _objectFactory;
 
         // Constructor of MySeriesController
-        public MySeriesController(ISeriesRepository repository, IServiceProvider serviceProvider)
+        public MySeriesController(ISeriesRepository repository, IObjectFactory objectFactory)
         {
             this._repository = repository;
-            this._serviceProvider = serviceProvider;
+            this._objectFactory = objectFactory;
         }
 
+        // GET: MySeries
         public IActionResult Index()
         {
             // Gets all active series from the repository
@@ -37,15 +38,13 @@ namespace SeriesMVC.Controllers
                 // Loop trough the list of series from the repository and transform it to IViewSeries
                 foreach (var series in seriesList)
                 {
-                    // Resolves a empity IViewSeries instance
-                    IViewSeries viewSeries = this._serviceProvider.GetService<IViewSeries>();
-
-                    // Sets the ISeries properties on the IViewSeries instance
-                    viewSeries.SetId(series.ReturnId());
-                    viewSeries.Title = series.Title;
-                    viewSeries.Description = series.Description;
-                    viewSeries.Gender = series.Gender;
-                    viewSeries.Year = series.Year;
+                    // Sets the ISeries properties to the IViewSeries instance
+                    IViewSeries viewSeries = this._objectFactory.CreateViewSeries(
+                        id: series.ReturnId(),
+                        gender: series.Gender,
+                        title: series.Title,
+                        description: series.Description,
+                        year: series.Year);
 
                     // Add to the list of IViewSeries thas was created earlier
                     viewSeriesList.Add(viewSeries);
@@ -54,6 +53,12 @@ namespace SeriesMVC.Controllers
 
             // Return the view with the list of IViewSeries
             return View(viewSeriesList);
+        }
+
+        // GET: MySeries/Create
+        public IActionResult Create()
+        {
+            return View();
         }
     }
 }

@@ -1,10 +1,9 @@
-using System;
 using DataLibrary.Enums;
 using DataLibrary.Models;
 
 namespace SeriesMVC.Models
 {
-    public class ViewSeries : BaseEntity, IViewSeries
+    public class InsertSeries : BaseEntity, IInsertSeries
     {
         // Private backing fields
         /*
@@ -30,6 +29,9 @@ namespace SeriesMVC.Models
         /// <para>Gets or Sets the series title.</para>
         /// <para>The string passed as Set parameter should not be null or empty and have more than 3 characters.</para>
         /// </value>
+        /// <exception cref="DataLibrary.Exceptions.SeriesPropertyValidationException">
+        /// Throw when the string passed is null or empty, or has less than 3 characters.
+        ///</exception>
         public string Title
         {
             get { return _title; }
@@ -51,6 +53,9 @@ namespace SeriesMVC.Models
         /// <para>Gets or Sets the series year of launch.</para>
         /// <para>The date passed as Set parameter must be bigger than 1900 and less or equal to the current year.</para>
         /// </value>
+        /// <exception cref="DataLibrary.Exceptions.SeriesPropertyValidationException">
+        /// Throw when the year passed is less than 1900 or bigger than the current year.
+        ///</exception>
         public int Year
         {
             get { return _year; }
@@ -65,22 +70,22 @@ namespace SeriesMVC.Models
         {
             get { return _isDeleted; }
             private set { _isDeleted = value; }
-        }       
+        }
 
-        // Constructor with id
-        public ViewSeries(int id, Gender gender, string title, string description, int year)
+        // Constructor
+         public InsertSeries(Gender gender, string title, string description, int year)
         {
-            this.Id = id;
             this.Gender = gender;
             this.Title = title;
             this.Description = description;
             this.Year = year;
             this.IsDeleted = false;
         }
-        
-        // An empty constructor
-        public ViewSeries()
+
+        // Empty Constructor
+        public InsertSeries()
         {
+
         }
 
         /// <summary>
@@ -95,6 +100,26 @@ namespace SeriesMVC.Models
         public int ReturnId()
         {
             return this.Id;
+        }
+        
+        public void SetDescription(string description)
+        {
+            this.Description = description;
+        }
+
+        public void SetGender(Gender gender)
+        {
+            this.Gender = gender;
+        }
+
+        public void SetTitle(string title)
+        {
+            this.Title = title;
+        }
+
+        public void SetYear(int year)
+        {
+            this.Year = year;
         }
     }
 }

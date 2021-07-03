@@ -12,6 +12,7 @@ using DataLibrary.Models;
 using DataLibrary.Repositories;
 using DataLibrary.Enums;
 using SeriesMVC.Models;
+using SeriesMVC.Factory;
 
 namespace SeriesMVC
 {
@@ -35,6 +36,7 @@ namespace SeriesMVC
 
             // Dependecies injection setup from da SeriesMVC models
             services.AddTransient<IViewSeries, ViewSeries>();
+            services.AddSingleton<IObjectFactory, Factory.ObjectFactory>();
 
         }
 
