@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DataLibrary.Models;
 using DataLibrary.Repositories;
+using DataLibrary.Enums;
 
 namespace SeriesMVC
 {

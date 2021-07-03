@@ -115,6 +115,12 @@ namespace DataLibrary.Models
             this.Year = year;
             this.IsDeleted = false;
         }
+        
+        // An empty constructor
+        public Series()
+        {
+        }
+
 
         /// <summary>
         /// Return a integer value representing the series Id.
