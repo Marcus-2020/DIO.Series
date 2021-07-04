@@ -1,0 +1,61 @@
+@using SeriesMVC.Utils
+@model SeriesMVC.Models.IViewSeries
+
+@{
+    ViewData["Title"] = "My Series - Create New Series";
+}
+
+<div class="jumbotron-fluid">
+    <div class="text-left">
+        <h1 class="display-4" style="color:#263238">My Series - Create New Series</h1>
+        <h5 style="color:#3d5afe">Create here a new TV Series for your repository.</h5>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="col-md-6">
+        <div id="form-div">
+            <form asp-action="Create" method="post">
+                <div class="form-group col s12">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <select asp-for="Gender">
+                        <option value="" disabled selected>Choose the Gender</option>
+                        
+                        @foreach (var genderView in ListsOf.GenderViews()) {
+                            <option value="@genderView.Gender">@genderView.Description</option>
+                        }
+
+                    </select>
+                </div>
+                <div class="form-group col s12">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="Title" type="text"/>
+                    <label asp-for="Title">Title</label>
+                </div>
+                <div class="form-group col s12">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <textarea asp-for="Description" class="materialize-textarea"></textarea>
+                    <label asp-for="Description">Description</label>
+                </div>
+                <div class="form-group col s2">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="Year" value="1900" type="number" min="1900" max="@DateTime.Now.Year"/>
+                    <label asp-for="Year">Year</label>
+                </div>
+                <input type="submit" value="Add New" class="waves-effect waves-light btn btn-primary" />
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function(){
+            $('select').formSelect();
+        });
+    </script>
+
+}

@@ -11,7 +11,5 @@ namespace SeriesMVC.Factory
         ISeries CreateSeries(int id, Gender gender, string title, string description, int year);
         IViewSeries CreateViewSeries();
         IViewSeries CreateViewSeries(int id, Gender gender, string title, string description, int year);
-        IInsertSeries CreateInsertSeries();
-        IInsertSeries CreateInsertSeries(Gender gender, string title, string description, int year);
     }
 }

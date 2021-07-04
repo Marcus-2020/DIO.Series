@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using DataLibrary.Enums;
 using DataLibrary.Models;
 
@@ -18,14 +19,18 @@ namespace SeriesMVC.Models
         private int _year;
         private bool _isDeleted;
 
+        [Required(ErrorMessage ="The series gender is required.")]
         // Properties
         ///<value>Gets or Sets the series gender.</value>
         public Gender Gender
         {
             get { return _gender; }
-            private set { _gender = value; }
+            set { _gender = value; }
         }
 
+        [Required(ErrorMessage = "The series title is required.")]
+        [MinLength(3, ErrorMessage = "The title must have at least 3 characters.")]
+        [MaxLength(100, ErrorMessage = "The title can't exceed 100 characters.")]
         /// <value>
         /// <para>Gets or Sets the series title.</para>
         /// <para>The string passed as Set parameter should not be null or empty and have more than 3 characters.</para>
@@ -34,19 +39,24 @@ namespace SeriesMVC.Models
         {
             get { return _title; }
         
-            private set
+            set
             {
                 _title = value;
             }
         }
 
+        [Required(ErrorMessage = "The series description is required.")]
+        [MinLength(3, ErrorMessage = "The description must have at least 3 characters.")]
+        [MaxLength(500, ErrorMessage = "The description can't exceed 500 characters.")]
         ///<value>Gets or Sets the Series description.</value>
         public string Description
         {
             get { return _description; }
-            private set { _description = value; }
+            set { _description = value; }
         }
 
+        [Required(ErrorMessage = "The year of release is required.")]
+        [Range(1900, 2100, ErrorMessage = "The year of release be between 1900 and the current year.")]
         /// <value>
         /// <para>Gets or Sets the series year of launch.</para>
         /// <para>The date passed as Set parameter must be bigger than 1900 and less or equal to the current year.</para>
@@ -54,7 +64,7 @@ namespace SeriesMVC.Models
         public int Year
         {
             get { return _year; }
-            private set
+            set
             {
                 _year = value;
             }
@@ -64,7 +74,7 @@ namespace SeriesMVC.Models
         public bool IsDeleted
         {
             get { return _isDeleted; }
-            private set { _isDeleted = value; }
+            set { _isDeleted = value; }
         }       
 
         // Constructor with id
@@ -95,6 +105,24 @@ namespace SeriesMVC.Models
         public int ReturnId()
         {
             return this.Id;
+        }
+
+        /// <summary>
+        /// Sets a integer value as the series Id.
+        /// </summary>
+        /// <param name="id">An unique identifier for a ISeries object in the repository.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Throw when the <paramref name="id"/>  passed is less than 0..
+        ///</exception>
+        public void SetId(int id)
+        {
+            if(id < 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    "Invalid id passed as argument, expected a integer number bigger than 0.");
+            }
+
+            this.Id = id;
         }
     }
 }

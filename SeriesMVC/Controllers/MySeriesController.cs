@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SeriesMVC.Models;
 using System.Linq;
 using SeriesMVC.Factory;
+using System.Threading.Tasks;
 
 namespace SeriesMVC.Controllers
 {
@@ -30,7 +31,7 @@ namespace SeriesMVC.Controllers
             List<ISeries> seriesList = this._repository.GetAll().Where(x => !x.IsDeleted).ToList();
 
             // Create a new list for the view series
-            List<IViewSeries> viewSeriesList = new List<IViewSeries>();
+            List<ViewSeries> viewSeriesList = new List<ViewSeries>();
 
             // Check if the ISeries list is empty
             if (seriesList.Count > 0)
@@ -39,7 +40,7 @@ namespace SeriesMVC.Controllers
                 foreach (var series in seriesList)
                 {
                     // Sets the ISeries properties to the IViewSeries instance
-                    IViewSeries viewSeries = this._objectFactory.CreateViewSeries(
+                    ViewSeries viewSeries = new ViewSeries(
                         id: series.ReturnId(),
                         gender: series.Gender,
                         title: series.Title,
@@ -57,8 +58,30 @@ namespace SeriesMVC.Controllers
 
         // GET: MySeries/Create
         public IActionResult Create()
+        { 
+            var model = new ViewSeries();
+            return View(model);
+        }
+
+        // POST: MySeries/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(ViewSeries model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                ISeries series = this._objectFactory.CreateSeries(
+                    model.Gender,
+                    model.Title,
+                    model.Description,
+                    model.Year);
+
+                this._repository.Insert(series);
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
         }
     }
 }
