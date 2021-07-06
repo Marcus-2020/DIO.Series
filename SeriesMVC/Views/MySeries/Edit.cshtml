@@ -2,13 +2,13 @@
 @model SeriesMVC.Models.IViewSeries
 
 @{
-    ViewData["Title"] = "My Series - Create New Series";
+    ViewData["Title"] = "My Series - Edit";
 }
 
 <div class="jumbotron-fluid">
     <div class="text-left">
-        <h1 class="display-4" style="color:#263238">My Series - Create New Series</h1>
-        <h5 style="color:#3d5afe">Create a new TV Series for your repository.</h5>
+        <h1 class="display-4" style="color:#263238">My Series - Edit Series</h1>
+        <h5 style="color:#3d5afe">Edit your TV Series.</h5>
     </div>
 </div>
 
@@ -16,16 +16,23 @@
     <div class="col-md-6">
 
         <div id="form-div">
-            <form asp-action="Create" method="post">
+            <form asp-action="Edit" method="post">
+
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
                 
                 <div class="form-group col s12">
                     <span asp-validation-for="Gender" class="text-danger"></span>
-                    <select asp-for="Gender">
-                        <option value="" disabled selected>Choose the Gender</option>
-                        
+                    <select asp-for="Gender">                        
                         @foreach (var genderView in ListsOf.GenderViews()) {
-                            <option value="@genderView.Gender">@genderView.Description</option>
+                            if (genderView.Gender == Model.Gender)
+                            {
+                                <option value="@genderView.Gender" selected>@genderView.Description</option>
+                            }
+                            else
+                            {
+                                <option value="@genderView.Gender">@genderView.Description</option>
+                            }
                         }
 
                     </select>
@@ -33,23 +40,24 @@
 
                 <div class="form-group col s12">
                     <span asp-validation-for="Title" class="text-danger"></span>
-                    <input asp-for="Title" type="text"/>
+                    <input asp-for="Title" type="text" value="@Model.Title"/>
                     <label asp-for="Title">Title</label>
                 </div>
 
                 <div class="form-group col s12">
                     <span asp-validation-for="Description" class="text-danger"></span>
-                    <textarea asp-for="Description" class="materialize-textarea"></textarea>
+                    <textarea asp-for="Description" class="materialize-textarea" value="@Model.Description"></textarea>
                     <label asp-for="Description">Description</label>
                 </div>
 
                 <div class="form-group col s2">
                     <span asp-validation-for="Year" class="text-danger"></span>
-                    <input asp-for="Year" value="1900" type="number" min="1900" max="@DateTime.Now.Year"/>
+                    <input asp-for="Year" type="number" value="@Model.Year"
+                        min="1900" max="@DateTime.Now.Year"/>
                     <label asp-for="Year">Year</label>
                 </div>
 
-                <button type="submit" class="waves-effect waves-light btn btn-primary">Add New</button>
+                <button type="submit" class="waves-effect waves-light btn btn-success">Save</button>
 
             </form>
         </div>
@@ -57,7 +65,7 @@
         <div>
             <a asp-action="Index">Back to My Series</a>
         </div>
-        
+
     </div>
 </div>
 

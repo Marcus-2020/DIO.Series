@@ -5,7 +5,7 @@ using DataLibrary.Models;
 
 namespace SeriesMVC.Models
 {
-    public class ViewSeries : BaseEntity, IViewSeries
+    public class ViewSeries : IViewSeries
     {
         // Private backing fields
         /*
@@ -13,11 +13,36 @@ namespace SeriesMVC.Models
             in a way that other classes could only access the data from the public properties
             where more validation and controll can be added.
         */
+        private int _id;
         private Gender _gender;
         private string _title;
         private string _description;
         private int _year;
         private bool _isDeleted;
+
+        // Constructor with id
+        public ViewSeries(int id, Gender gender, string title, string description, int year)
+        {
+            this.Id = id;
+            this.Gender = gender;
+            this.Title = title;
+            this.Description = description;
+            this.Year = year;
+            this.IsDeleted = false;
+        }
+        
+        // An empty constructor
+        public ViewSeries()
+        {
+        }
+
+        [Required(ErrorMessage = "The series Id is required.")]
+        /// <value>Get a integer value indicating the entity Id</value>
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
 
         [Required(ErrorMessage ="The series gender is required.")]
         // Properties
@@ -39,10 +64,7 @@ namespace SeriesMVC.Models
         {
             get { return _title; }
         
-            set
-            {
-                _title = value;
-            }
+            set { _title = value; }
         }
 
         [Required(ErrorMessage = "The series description is required.")]
@@ -77,52 +99,36 @@ namespace SeriesMVC.Models
             set { _isDeleted = value; }
         }       
 
-        // Constructor with id
-        public ViewSeries(int id, Gender gender, string title, string description, int year)
-        {
-            this.Id = id;
-            this.Gender = gender;
-            this.Title = title;
-            this.Description = description;
-            this.Year = year;
-            this.IsDeleted = false;
-        }
-        
-        // An empty constructor
-        public ViewSeries()
-        {
-        }
-
         /// <summary>
-        /// Return a integer value representing the series Id.
+        /// Alter the state of the series object to indicate that is deleted.
         /// </summary>
         /// <remarks>
-        /// The Id value returned is inherited from the BaseEntity class.
+        /// Check if the series is already deleted, if not alter it's state to deleted.
         /// </remarks>
-        /// <returns>
-        /// A integer value representing the series Id.
-        /// </returns>
-        public int ReturnId()
+        public void Delete()
         {
-            return this.Id;
+            if(IsDeleted)
+            {
+                return;
+            }
+
+            this.IsDeleted = true;
         }
 
         /// <summary>
-        /// Sets a integer value as the series Id.
+        /// Alter the state of the series object to indicate that is not deleted.
         /// </summary>
-        /// <param name="id">An unique identifier for a ISeries object in the repository.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Throw when the <paramref name="id"/>  passed is less than 0..
-        ///</exception>
-        public void SetId(int id)
+        /// <remarks>
+        /// Check if the series is already not deleted, if not alter it's state to not deleted.
+        /// </remarks>
+        public void Restore()
         {
-            if(id < 0)
+            if(!IsDeleted)
             {
-                throw new ArgumentOutOfRangeException(
-                    "Invalid id passed as argument, expected a integer number bigger than 0.");
+                return;
             }
 
-            this.Id = id;
+            this.IsDeleted = false;
         }
     }
 }

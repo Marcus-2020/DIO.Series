@@ -1,0 +1,46 @@
+@model SeriesMVC.Models.IViewSeries
+
+@{
+    ViewData["Title"] = "My Series - Detail";
+}
+
+<div class="jumbotron-fluid">
+    <div class="text-left">
+        <h1 class="display-4" style="color:#263238">My Series - Details</h1>
+        <h5 style="color:#3d5afe">Details of this TV Series.</h5>
+    </div>
+</div>
+<hr/>
+<div>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |  
+    <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |  
+    <a asp-action="Index">Back to List</a>
+</div>

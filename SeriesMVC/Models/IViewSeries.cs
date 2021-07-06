@@ -7,6 +7,8 @@ namespace SeriesMVC.Models
     {
         // Propteries of IViewSeries
 
+        /// <value>Get a integer value indicating the entity id</value>
+        public int Id { get; set; }
         [Required]
         ///<value>Gets or Sets a Gender enum indicating the series gender.</value>
         Gender Gender { get; }
@@ -26,20 +28,14 @@ namespace SeriesMVC.Models
         // Methods of IViewSeries
 
         /// <summary>
-        /// Return a integer value representing the series id.
+        /// Alter the state of the series object to indicate that is deleted.
         /// </summary>
-        /// <returns>
-        /// A integer value representing the series id.
-        /// </returns>
-        int ReturnId();
+        void Delete();
 
         /// <summary>
-        /// Sets a integer value as the series Id.
+        /// Alter the state of the series object to indicate that is not deleted.
         /// </summary>
-        /// <param name="id">An unique identifier for a ISeries object in the repository.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Throw when the <paramref name="id"/>  passed is less than 0..
-        ///</exception>
-        void SetId(int id);
+        void Restore();
+        
     }
 }
