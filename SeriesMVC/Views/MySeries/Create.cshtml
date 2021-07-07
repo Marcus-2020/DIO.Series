@@ -7,8 +7,8 @@
 
 <div class="jumbotron-fluid">
     <div class="text-left">
-        <h1 class="display-4" style="color:#263238">My Series - Create New Series</h1>
-        <h5 style="color:#3d5afe">Create a new TV Series for your repository.</h5>
+        <h1 class="display-4">My Series - Create New Series</h1>
+        <h5>Create a new TV Series for your repository.</h5>
     </div>
 </div>
 
@@ -21,7 +21,7 @@
                 
                 <div class="form-group col s12">
                     <span asp-validation-for="Gender" class="text-danger"></span>
-                    <select asp-for="Gender">
+                    <select asp-for="Gender" class="form-select">
                         <option value="" disabled selected>Choose the Gender</option>
                         
                         @foreach (var genderView in ListsOf.GenderViews()) {
@@ -33,23 +33,25 @@
 
                 <div class="form-group col s12">
                     <span asp-validation-for="Title" class="text-danger"></span>
-                    <input asp-for="Title" type="text"/>
                     <label asp-for="Title">Title</label>
+                    <input asp-for="Title" type="text" class="form-control"/>
                 </div>
 
                 <div class="form-group col s12">
                     <span asp-validation-for="Description" class="text-danger"></span>
-                    <textarea asp-for="Description" class="materialize-textarea"></textarea>
                     <label asp-for="Description">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
                 </div>
 
                 <div class="form-group col s2">
                     <span asp-validation-for="Year" class="text-danger"></span>
-                    <input asp-for="Year" value="1900" type="number" min="1900" max="@DateTime.Now.Year"/>
                     <label asp-for="Year">Year</label>
+                    <input asp-for="Year" class="form-control" value="1900" type="number" min="1900" max="@DateTime.Now.Year"/>
                 </div>
 
-                <button type="submit" class="waves-effect waves-light btn btn-primary">Add New</button>
+                <br/>
+
+                <button type="submit" class="waves-effect waves-light btn btn-success">Add New</button>
 
             </form>
         </div>
@@ -64,11 +66,4 @@
 @section Scripts
 {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script>
-        $(document).ready(function(){
-            $('select').formSelect();
-        });
-    </script>
-
 }
